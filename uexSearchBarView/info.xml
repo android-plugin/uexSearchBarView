@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uexplugins>
+    <plugin uexName="uexSearchBarView" version="3.0.1" build="1">
+		<info>1:修复搜索按钮兼容问题</info>
+		<build>0:搜索框</build>
+    </plugin>
+</uexplugins>
