@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	
+	<script type="text/javascript">
+
+	window.uexOnload = function(){
+		
+		uexSearchBarView.onItemClick = function(index, keyword) {
+			alert(keyword);
+		}
+	}
+	
+	function setViewStyle() {
+		var params = {
+			searchBar:{
+				placehoderText:"搜索词",
+				textColor:"#ffff0000",
+				inputBgColor:"#ffffffff",
+				cancelButtonTextColor:"#ff00ff00"
+				},
+			listView:{
+				bgColor:"#ffffff",
+				separatorLineColor:"#ffff0000",
+				itemTextColor:"#ffff00ff"
+				}
+			};
+		uexSearchBarView.setViewStyle(JSON.stringify(params));
+	}
+	
+	function show() {
+		var wid = window.screen.width;
+		var hei = window.screen.height - 300;
+		var param = {
+			x:200,
+			y:0,
+			w:wid,
+			h:hei
+		};
+		uexSearchBarView.open(JSON.stringify(param));
+	}
+	
+	function dismiss() {
+		uexSearchBarView.close();
+	}
+	
+	function clearHistory() {
+		uexSearchBarView.clearHistory();
+	}
+	
+</script>
+</head>
+
+<body>
+	<div class="tit">uexSearchBarView</div>
+	<div class="conbor">
+		<div class="consj">
+			<input type="button" value="设置风格" onclick=setViewStyle()>
+			<input type="button" value="打开" onclick=show()>
+			<input type="button" value="关闭" onclick=dismiss()>
+			<input type="button" value="清除历史记录" onclick=clearHistory()>
+		</div>
+	</div>
+</body>
+</html>
