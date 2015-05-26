@@ -105,11 +105,10 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 			Window window = mgr.startActivity(activityID, intent);
 			View decorView = window.getDecorView();
 			LayoutParams param = new LayoutParams((int) w, (int) h);
-			param.topMargin = (int) x;
-			param.leftMargin = (int) y;
+			param.topMargin = (int) y;
+			param.leftMargin = (int) x;
 			addView2CurrentWindow(decorView, param);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}
