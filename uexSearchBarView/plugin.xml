@@ -6,6 +6,5 @@
         <method name="open" />
         <method name="close" />
         <method name="clearHistory" />
-        <method name="setViewStyle" />
     </plugin>
 </uexplugins>

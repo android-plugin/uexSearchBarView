@@ -14,24 +14,7 @@
 			alert(keyword);
 		}
 	}
-	
-	function setViewStyle() {
-		var params = {
-			searchBar:{
-				placehoderText:"搜索词",
-				textColor:"#ffff0000",
-				inputBgColor:"#ffffffff",
-				cancelButtonTextColor:"#ff00ff00"
-				},
-			listView:{
-				bgColor:"#ffffff",
-				separatorLineColor:"#ffff0000",
-				itemTextColor:"#ffff00ff"
-				}
-			};
-		uexSearchBarView.setViewStyle(JSON.stringify(params));
-	}
-	
+
 	function show() {
 		var wid = window.screen.width;
 		var hei = window.screen.height - 300;
@@ -39,7 +22,17 @@
 			x:200,
 			y:0,
 			w:wid,
-			h:hei
+			h:hei,
+			searchBar:{
+				placehoderText:"搜索词",
+				textColor:"#ff0000",
+				inputBgColor:"#ffffff"
+			},
+			listView:{
+				bgColor:"#ffffff",
+				separatorLineColor:"#ff0000",
+				itemTextColor:"#ff00ff"
+			}
 		};
 		uexSearchBarView.open(JSON.stringify(param));
 	}
@@ -59,10 +52,9 @@
 	<div class="tit">uexSearchBarView</div>
 	<div class="conbor">
 		<div class="consj">
-			<input type="button" value="设置风格" onclick=setViewStyle()>
-			<input type="button" value="打开" onclick=show()>
-			<input type="button" value="关闭" onclick=dismiss()>
-			<input type="button" value="清除历史记录" onclick=clearHistory()>
+			<input class="btn" type="button" value="打开" onclick=show()>
+			<input class="btn" type="button" value="关闭" onclick=dismiss()>
+			<input class="btn" type="button" value="清除历史记录" onclick=clearHistory()>
 		</div>
 	</div>
 </body>

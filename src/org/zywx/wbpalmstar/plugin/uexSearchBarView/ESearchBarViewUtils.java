@@ -33,9 +33,11 @@ public class ESearchBarViewUtils {
 	public static final String SEARCHBAR_MSG_CODE_OBJ = "obj";
 	public static final String SEARCHBAR_MSG_CODE_MODEL = "model";
 	public static final String SEARCHBAR_MSG_CODE_STORAGE = "storage";
-	
-	
-	public static ESearchBarViewDataModel parseJson2Model(String[] params) {
+    public static final String RESULT_INDEX = "index";
+    public static final String RESULT_KEYWORD = "keyword";
+
+
+    public static ESearchBarViewDataModel parseJson2Model(String[] params) {
 		ESearchBarViewDataModel model = new ESearchBarViewDataModel();
 		try {
 			JSONObject obj = new JSONObject(params[0]);

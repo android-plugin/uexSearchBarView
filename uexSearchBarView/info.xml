@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uexplugins>
-    <plugin uexName="uexSearchBarView" version="3.0.2" build="2">
-		<info>2:修复x,y参数颠倒的问题</info>
-		<build>1:修复搜索按钮兼容问题</build>
+    <plugin uexName="uexSearchBarView" version="3.0.0" build="0">
 		<build>0:搜索框</build>
     </plugin>
 </uexplugins>

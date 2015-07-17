@@ -1,11 +1,5 @@
 package org.zywx.wbpalmstar.plugin.uexSearchBarView;
 
-import java.io.Serializable;
-
-import org.json.JSONObject;
-import org.zywx.wbpalmstar.engine.EBrowserView;
-import org.zywx.wbpalmstar.engine.universalex.EUExBase;
-
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
@@ -19,6 +13,12 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+
+import org.json.JSONObject;
+import org.zywx.wbpalmstar.engine.EBrowserView;
+import org.zywx.wbpalmstar.engine.universalex.EUExBase;
+
+import java.io.Serializable;
 
 @SuppressWarnings({ "deprecation", "serial" })
 public class EUExSearchBarView extends EUExBase implements Serializable {
@@ -94,6 +94,7 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 
 			Intent intent = new Intent(mContext, ESearchBarViewBaseActivity.class);
 			intent.putExtra(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_OBJ, this);
+            model = ESearchBarViewUtils.parseJson2Model(params);
 			if(model != null) {
 				intent.putExtra(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_MODEL, model);
 			}
@@ -165,7 +166,15 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 	}
 	
 	public void callback(String index, String keyword) {
-		String js = SCRIPT_HEADER + "if(" + F_CALLBACK_NAME_ONITEMCLICK + "){" +F_CALLBACK_NAME_ONITEMCLICK + "('" + index + "','" + keyword + "')}";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ESearchBarViewUtils.RESULT_INDEX, index);
+            jsonObject.put(ESearchBarViewUtils.RESULT_KEYWORD, keyword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String js = SCRIPT_HEADER + "if(" + F_CALLBACK_NAME_ONITEMCLICK +
+                "){" +F_CALLBACK_NAME_ONITEMCLICK + "('" + jsonObject.toString() + "')}";
 		onCallback(js);
 	}
 

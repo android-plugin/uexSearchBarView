@@ -1,10 +1,5 @@
 package org.zywx.wbpalmstar.plugin.uexSearchBarView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ESearchBarViewBaseActivity extends Activity implements OnClickListener, TextWatcher {
 
@@ -202,5 +202,19 @@ public class ESearchBarViewBaseActivity extends Activity implements OnClickListe
 	public void setViewStyle(ESearchBarViewDataModel model) {
 		
 	}
-	
+
+    @Override
+    protected void onDestroy() {
+        hideSoftInput();
+        super.onDestroy();
+    }
+
+    private void hideSoftInput() {
+        InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (im.isActive()){
+            if (view != null){
+                im.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
+    }
 }
