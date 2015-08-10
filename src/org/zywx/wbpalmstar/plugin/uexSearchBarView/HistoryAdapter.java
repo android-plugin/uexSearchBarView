@@ -1,9 +1,5 @@
 package org.zywx.wbpalmstar.plugin.uexSearchBarView;
 
-import java.util.List;
-
-import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -11,6 +7,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
+
+import java.util.List;
 
 public class HistoryAdapter extends BaseAdapter {
 
@@ -71,7 +71,7 @@ public class HistoryAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				keyword = kws.get(position);
-				eSearchBarView.callback(position+"", keyword);
+				eSearchBarView.onItemClick(position+"", keyword);
 			}
 		});
 		return convertView;

@@ -26,6 +26,7 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 	private LocalActivityManager mgr;
 	private String SCRIPT_HEADER = "javascript:";
 	private String F_CALLBACK_NAME_ONITEMCLICK = "uexSearchBarView.onItemClick";
+	private String F_CALLBACK_ON_SEARCH = "uexSearchBarView.onSearch";
 	private ESearchBarViewDataModel model;
 
 
@@ -113,7 +114,7 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 		}
 
 	}
-	
+
 	private void handleSearchBarSetViewStyle(Message msg) {
 		String[] params = msg.getData().getStringArray(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_FUNCTION);
 		if(params == null || params.length == 0) {
@@ -164,8 +165,13 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 		String activityID = ESearchBarViewUtils.SEARCHBAR_MSG_CODE_ACTIVITY + this.hashCode();
 		mgr.destroyActivity(activityID, true);
 	}
-	
-	public void callback(String index, String keyword) {
+
+	/**
+	 * 点击历史记录中的某一个item时，触发这个回调。
+	 * @param index  该item在列表中的位置
+	 * @param keyword 搜索关键字
+	 */
+	public void onItemClick(String index, String keyword) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ESearchBarViewUtils.RESULT_INDEX, index);
@@ -178,4 +184,19 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 		onCallback(js);
 	}
 
+	/**
+	 * 点击"搜索"按钮，或软键盘上的搜索图标时会触发这个回调函数，返回搜索的关键字。格式如下： {"keyword": "query"}
+	 * @param keyword
+	 */
+	public void onActionSearch(String keyword) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(ESearchBarViewUtils.RESULT_KEYWORD, keyword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String js = SCRIPT_HEADER + "if(" + F_CALLBACK_ON_SEARCH +
+				"){" +F_CALLBACK_ON_SEARCH + "('" + jsonObject.toString() + "')}";
+		onCallback(js);
+	}
 }

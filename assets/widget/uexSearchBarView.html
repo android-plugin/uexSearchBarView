@@ -10,8 +10,11 @@
 
 	window.uexOnload = function(){
 		
-		uexSearchBarView.onItemClick = function(index, keyword) {
-			alert(keyword);
+		uexSearchBarView.onItemClick = function(json) {
+			alert(json);
+		}
+		uexSearchBarView.onSearch = function(json) {
+			alert(json);
 		}
 	}
 

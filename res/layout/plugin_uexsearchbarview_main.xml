@@ -48,7 +48,8 @@
                         android:layout_marginBottom="2dp"
                         android:hint="请输入搜索词"
                         android:singleLine="true"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:imeOptions="actionSearch"/>
 
                     <ImageView
                         android:id="@+id/plugin_uexsearchbarview_rl_searchbar_iv"

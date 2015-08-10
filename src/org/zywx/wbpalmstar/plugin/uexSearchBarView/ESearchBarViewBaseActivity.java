@@ -9,9 +9,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,6 +105,7 @@ public class ESearchBarViewBaseActivity extends Activity implements OnClickListe
 		}
 		
 		et.addTextChangedListener(this);
+		et.setOnEditorActionListener(editorActionListener);
 		del.setOnClickListener(this);
 		bt.setOnClickListener(this);
 	}
@@ -124,21 +127,13 @@ public class ESearchBarViewBaseActivity extends Activity implements OnClickListe
 				et.setText("");
 				et.setHint("请输入搜索词");
 				et.setHintTextColor(Color.GRAY);
-				eSearchBarView.callback(null, keyword);
+                eSearchBarView.onActionSearch(keyword);
 				InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				im.hideSoftInputFromWindow(v.getWindowToken(), 0);
-				if(kws.contains(keyword))
-					return;
-				kws.add(keyword);
-				SharedPreferences sp = getSharedPreferences(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_STORAGE, MODE_PRIVATE);
-				Editor edit = sp.edit();
-				for (int i = 0; i < kws.size(); i++) {
-					edit.putString("p"+i, kws.get(i));
-				}
-				edit.commit();
-				changeView();
-				del.setVisibility(View.GONE);
-				adapter.refreshData(kws);
+				if(kws.contains(keyword)) {
+                    return;
+                }
+				cacheKeywords(keyword);
 			}
 		}
 		if(v.getId() == EUExUtil.getResIdID("plugin_uexsearchbarview_rl_searchbar_iv")) {
@@ -200,7 +195,7 @@ public class ESearchBarViewBaseActivity extends Activity implements OnClickListe
 	}
 
 	public void setViewStyle(ESearchBarViewDataModel model) {
-		
+
 	}
 
     @Override
@@ -217,4 +212,31 @@ public class ESearchBarViewBaseActivity extends Activity implements OnClickListe
             }
         }
     }
+	private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String keyword = et.getText().toString();
+                eSearchBarView.onActionSearch(et.getText().toString());
+                if(kws.contains(keyword)) {
+                    return false;
+                }
+				cacheKeywords(keyword);
+            }
+			return false;
+		}
+	};
+
+	private void cacheKeywords(String keyword) {
+		kws.add(keyword);
+		SharedPreferences sp = getSharedPreferences(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_STORAGE, MODE_PRIVATE);
+		Editor edit = sp.edit();
+		for (int i = 0; i < kws.size(); i++) {
+            edit.putString("p"+i, kws.get(i));
+        }
+		edit.commit();
+		changeView();
+		del.setVisibility(View.GONE);
+		adapter.refreshData(kws);
+	}
 }
