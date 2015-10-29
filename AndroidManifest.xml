@@ -56,7 +56,6 @@
                 <action android:name="org.zywx.push.receive" />
             </intent-filter>
         </receiver>
-        <activity android:name="org.zywx.wbpalmstar.plugin.uexSearchBarView.ESearchBarViewBaseActivity" />
     </application>
     <uses-sdk 
         android:minSdkVersion="4"/>

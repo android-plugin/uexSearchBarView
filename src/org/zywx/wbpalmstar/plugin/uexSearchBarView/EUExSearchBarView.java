@@ -1,15 +1,10 @@
 package org.zywx.wbpalmstar.plugin.uexSearchBarView;
 
-import android.app.Activity;
-import android.app.ActivityGroup;
-import android.app.LocalActivityManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -18,21 +13,17 @@ import org.json.JSONObject;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 
-import java.io.Serializable;
-
-@SuppressWarnings({ "deprecation", "serial" })
-public class EUExSearchBarView extends EUExBase implements Serializable {
+public class EUExSearchBarView extends EUExBase{
 	
-	private LocalActivityManager mgr;
 	private String SCRIPT_HEADER = "javascript:";
 	private String F_CALLBACK_NAME_ONITEMCLICK = "uexSearchBarView.onItemClick";
 	private String F_CALLBACK_ON_SEARCH = "uexSearchBarView.onSearch";
 	private ESearchBarViewDataModel model;
+    private ESearchBarViewBaseView mSearchView;
 
 
 	public EUExSearchBarView(Context context, EBrowserView eBrowserView) {
 		super(context, eBrowserView);
-		mgr = ((ActivityGroup)mContext).getLocalActivityManager();
 	}
 
 	@Override
@@ -93,23 +84,14 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 			float w = Float.parseFloat(json.getString(ESearchBarViewUtils.SEARCHBAR_PARAMS_KEY_W));
 			float h = Float.parseFloat(json.getString(ESearchBarViewUtils.SEARCHBAR_PARAMS_KEY_H));
 
-			Intent intent = new Intent(mContext, ESearchBarViewBaseActivity.class);
-			intent.putExtra(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_OBJ, this);
+            if (mSearchView != null) return;
             model = ESearchBarViewUtils.parseJson2Model(params);
-			if(model != null) {
-				intent.putExtra(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_MODEL, model);
-			}
-			String activityID = ESearchBarViewUtils.SEARCHBAR_MSG_CODE_ACTIVITY + this.hashCode();
-			ESearchBarViewBaseActivity activity = (ESearchBarViewBaseActivity) mgr.getActivity(activityID);
-			if(activity != null) {
-				return;
-			}
-			Window window = mgr.startActivity(activityID, intent);
-			View decorView = window.getDecorView();
+            mSearchView = new ESearchBarViewBaseView(mContext, this, model);
+
 			LayoutParams param = new LayoutParams((int) w, (int) h);
 			param.topMargin = (int) y;
 			param.leftMargin = (int) x;
-			addView2CurrentWindow(decorView, param);
+			addView2CurrentWindow(mSearchView, param);
 		} catch (Exception e) {
 		}
 
@@ -137,33 +119,26 @@ public class EUExSearchBarView extends EUExBase implements Serializable {
 	}
 
 	private void handleMessageInSearchBar(Message msg) {
-		String activityID = ESearchBarViewUtils.SEARCHBAR_MSG_CODE_ACTIVITY + this.hashCode();
-		Activity activity = mgr.getActivity(activityID);
-		if(activity != null && activity instanceof ESearchBarViewBaseActivity) {
-			String[] params = msg.getData().getStringArray(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_FUNCTION);
-			ESearchBarViewBaseActivity eSearchBarViewBaseActivity = (ESearchBarViewBaseActivity) activity;
-			switch (msg.what) {
-			case ESearchBarViewUtils.SEARCHBAR_MSG_CODE_CLOSE:
-				handleSearchBarClose(params, eSearchBarViewBaseActivity);
-				break;
-			case ESearchBarViewUtils.SEARCHBAR_MSG_CODE_CLEARHISTORY:
-				handleSearchBarClearHistory(params, eSearchBarViewBaseActivity);
-				break;
-			}
-		}
+        switch (msg.what) {
+            case ESearchBarViewUtils.SEARCHBAR_MSG_CODE_CLOSE:
+                handleSearchBarClose();
+                break;
+            case ESearchBarViewUtils.SEARCHBAR_MSG_CODE_CLEARHISTORY:
+                handleSearchBarClearHistory();
+                break;
+        }
 	}
 
-	private void handleSearchBarClearHistory(String[] params,
-			ESearchBarViewBaseActivity eSearchBarViewBaseActivity) {
-		eSearchBarViewBaseActivity.clearHistory();
+	private void handleSearchBarClearHistory() {
+        if (mSearchView == null) return;
+        mSearchView.clearHistory();
 	}
 
-	private void handleSearchBarClose(String[] params,
-			ESearchBarViewBaseActivity eSearchBarViewBaseActivity) {
-		View decorView = eSearchBarViewBaseActivity.getWindow().getDecorView();
-		removeViewFromCurrentWindow(decorView);
-		String activityID = ESearchBarViewUtils.SEARCHBAR_MSG_CODE_ACTIVITY + this.hashCode();
-		mgr.destroyActivity(activityID, true);
+	private void handleSearchBarClose() {
+        if (mSearchView == null) return;
+        mSearchView.clean();
+		removeViewFromCurrentWindow(mSearchView);
+        mSearchView = null;
 	}
 
 	/**
