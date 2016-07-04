@@ -2,6 +2,6 @@
 <uexplugins>
     <plugin uexName="uexSearchBarView" version="4.0.0" build="2">
         <info>1:去掉插件中的ActivityGroup,配合引擎升级</info>
-		<build>0:搜索框</build>
+        <build>0:搜索框</build>
     </plugin>
 </uexplugins>
