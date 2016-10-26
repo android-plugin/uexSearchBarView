@@ -3,6 +3,7 @@
     <plugin className="org.zywx.wbpalmstar.plugin.uexSearchBarView.EUExSearchBarView"
         uexName="uexSearchBarView">
         <method name="open" />
+        <method name="openWithSuggestion" />
         <method name="close" />
         <method name="clearHistory" />
     </plugin>

@@ -57,6 +57,7 @@ android {
         applicationId 'org.zywx.wbpalmstar.plugin.uexSearchBarView'
         minSdkVersion 14
         targetSdkVersion 14
+        multiDexEnabled true
     }
     productFlavors {
     }

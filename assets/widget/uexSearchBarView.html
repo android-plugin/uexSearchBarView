@@ -1,56 +1,74 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 
-    window.uexOnload = function(){
+	window.uexOnload = function(){
 
-        uexSearchBarView.onItemClick = function(json) {
-            alert(json);
-        }
-        uexSearchBarView.onSearch = function(json) {
-            alert(json);
-        }
-    }
+		uexSearchBarView.onItemClick = function(json) {
+			alert(json);
+		}
+		uexSearchBarView.onSearch = function(json) {
+			alert(json);
+		}
+	}
 
-    function show() {
-        var wid = window.screen.width;
-        var hei = window.screen.height - 300;
-        var param = {
-            x:200,
-            y:0,
-            w:wid,
-            h:hei,
-            searchBar:{
-                placehoderText:"搜索词",
-                textColor:"#ff0000",
-                inputBgColor:"#ffffff"
-            },
-            listView:{
-                bgColor:"#ffffff",
-                separatorLineColor:"#ff0000",
-                itemTextColor:"#ff00ff"
-            }
-        };
-        uexSearchBarView.open(JSON.stringify(param));
-    }
-
-    function dismiss() {
-        uexSearchBarView.close();
-    }
-
-    function clearHistory() {
-        uexSearchBarView.clearHistory();
-    }
-
-
-
-    </script>
+   function show() {
+		var wid = window.screen.width - 200;
+		var hei = window.screen.height - 300;
+		var param = {
+			x:200,
+			y:0,
+			w:wid,
+			h:hei,
+			searchBar:{
+				placehoderText:"搜索词",
+				textColor:"#ff0000",
+				inputBgColor:"#ffffff"
+			},
+			listView:{
+				bgColor:"#ffffff",
+				separatorLineColor:"#ff0000",
+				itemTextColor:"#ff00ff"
+			}
+		};
+		uexSearchBarView.open(JSON.stringify(param));
+	}
+	function suggestion() {
+		var wid = window.screen.width - 200;
+		var hei = window.screen.height - 300;
+		var param = {
+			x:200,
+			y:0,
+			w:wid,
+			h:hei,
+			searchBar:{
+				placehoderText:"搜索词",
+				textColor:"#ff0000",
+				inputBgColor:"#ffffff"
+			},
+			listView:{
+				bgColor:"#ffffff",
+				separatorLineColor:"#ff0000",
+				itemTextColor:"#ff00ff"
+			},
+			suggestionList: ["a", "ab", "abc", "abcd", "abcde", "abcdef", "abcdefg"],
+			suggestionCount: 5 //提示的条数
+		};
+		uexSearchBarView.openWithSuggestion(JSON.stringify(param));
+	}
+	function dismiss() {
+		uexSearchBarView.close();
+	}
+	function clearHistory() {
+		uexSearchBarView.clearHistory();
+	}
+</script>
 </head>
 
 <body>
@@ -58,6 +76,7 @@
 <div class="conbor">
     <div class="consj">
         <input class="btn" type="button" value="打开" onclick=show()>
+        <input class="btn" type="button" value="suggestion" onclick=suggestion()>
         <input class="btn" type="button" value="关闭" onclick=dismiss()>
         <input class="btn" type="button" value="清除历史记录" onclick=clearHistory()>
     </div>
