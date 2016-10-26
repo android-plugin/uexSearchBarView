@@ -14,12 +14,13 @@ import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 
 public class EUExSearchBarView extends EUExBase{
-	
+
 	private String SCRIPT_HEADER = "javascript:";
 	private String F_CALLBACK_NAME_ONITEMCLICK = "uexSearchBarView.onItemClick";
 	private String F_CALLBACK_ON_SEARCH = "uexSearchBarView.onSearch";
 	private ESearchBarViewDataModel model;
     private ESearchBarViewBaseView mSearchView;
+    private ESearchBarViewWithSuggestion mSearchViewWidthSuggestion;
 
 
 	public EUExSearchBarView(Context context, EBrowserView eBrowserView) {
@@ -31,23 +32,27 @@ public class EUExSearchBarView extends EUExBase{
 		close(null);
 		return false;
 	}
-	
+
 	public void open(String[] params) {
 		sendMessageInSearchBar(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_OPEN, params);
 	}
-	
+
+    public void openWithSuggestion (String [] params) {
+        sendMessageInSearchBar(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_SUGGESTION, params);
+    }
+
 	public void close(String[] params) {
 		sendMessageInSearchBar(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_CLOSE, params);
 	}
-	
+
 	public void setViewStyle(String[] params) {
 		sendMessageInSearchBar(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_SETVIEWSTYLE, params);
 	}
-	
+
 	public void clearHistory(String[] params) {
 		sendMessageInSearchBar(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_CLEARHISTORY, params);
 	}
-	
+
 	private void sendMessageInSearchBar(int msgCode, String[] params) {
 		if(mHandler == null) {
 			return;
@@ -60,10 +65,11 @@ public class EUExSearchBarView extends EUExBase{
 		msg.setData(bundle);
 		mHandler.sendMessage(msg);
 	}
-	
+
 	@Override
 	public void onHandleMessage(Message msg) {
-		if(msg.what == ESearchBarViewUtils.SEARCHBAR_MSG_CODE_OPEN) {
+		if(msg.what == ESearchBarViewUtils.SEARCHBAR_MSG_CODE_OPEN
+                || msg.what == ESearchBarViewUtils.SEARCHBAR_MSG_CODE_SUGGESTION) {
 			handleSearchBarOpen(msg);
 		}else if(msg.what == ESearchBarViewUtils.SEARCHBAR_MSG_CODE_SETVIEWSTYLE) {
 			handleSearchBarSetViewStyle(msg);
@@ -72,7 +78,7 @@ public class EUExSearchBarView extends EUExBase{
 		}
 	}
 
-	private void handleSearchBarOpen(Message msg) {
+    private void handleSearchBarOpen(Message msg) {
 		String[] params = msg.getData().getStringArray(ESearchBarViewUtils.SEARCHBAR_MSG_CODE_FUNCTION);
 		if(params == null || params.length == 0) {
 			return;
@@ -86,13 +92,18 @@ public class EUExSearchBarView extends EUExBase{
 
             if (mSearchView != null) return;
             model = ESearchBarViewUtils.parseJson2Model(params);
-            mSearchView = new ESearchBarViewBaseView(mContext, this, model);
-
-			LayoutParams param = new LayoutParams((int) w, (int) h);
-			param.topMargin = (int) y;
-			param.leftMargin = (int) x;
-			addView2CurrentWindow(mSearchView, param);
+            LayoutParams param = new LayoutParams((int) w, (int) h);
+            param.topMargin = (int) y;
+            param.leftMargin = (int) x;
+            if (msg.what == ESearchBarViewUtils.SEARCHBAR_MSG_CODE_SUGGESTION) {
+                mSearchViewWidthSuggestion = new ESearchBarViewWithSuggestion(mContext, this, model);
+                addView2CurrentWindow(mSearchViewWidthSuggestion, param);
+            } else {
+                mSearchView = new ESearchBarViewBaseView(mContext, this, model);
+                addView2CurrentWindow(mSearchView, param);
+            }
 		} catch (Exception e) {
+            e.printStackTrace();
 		}
 
 	}
@@ -104,7 +115,7 @@ public class EUExSearchBarView extends EUExBase{
 		}
 		model = ESearchBarViewUtils.parseJson2Model(params);
 	}
-	
+
 	private void addView2CurrentWindow(View child, RelativeLayout.LayoutParams parms) {
 		int l = (int) (parms.leftMargin);
 		int t = (int) (parms.topMargin);
@@ -135,10 +146,15 @@ public class EUExSearchBarView extends EUExBase{
 	}
 
 	private void handleSearchBarClose() {
-        if (mSearchView == null) return;
-        mSearchView.clean();
-		removeViewFromCurrentWindow(mSearchView);
-        mSearchView = null;
+        if (mSearchView != null) {
+            mSearchView.clean();
+            removeViewFromCurrentWindow(mSearchView);
+            mSearchView = null;
+        }
+        if (mSearchViewWidthSuggestion != null) {
+            removeViewFromCurrentWindow(mSearchViewWidthSuggestion);
+            mSearchViewWidthSuggestion = null;
+        }
 	}
 
 	/**
@@ -153,6 +169,9 @@ public class EUExSearchBarView extends EUExBase{
             jsonObject.put(ESearchBarViewUtils.RESULT_KEYWORD, keyword);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (mSearchViewWidthSuggestion != null) {
+            mSearchViewWidthSuggestion.onItemClick(keyword);
         }
         String js = SCRIPT_HEADER + "if(" + F_CALLBACK_NAME_ONITEMCLICK +
                 "){" +F_CALLBACK_NAME_ONITEMCLICK + "('" + jsonObject.toString() + "')}";

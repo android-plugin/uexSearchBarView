@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/plugin_uexsearchbarview_searchbar"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/plugin_uexsearchbarview_rl_searchbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/plugin_uexsearchbarview_rl_searchbar_et"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="bottom"
+                        android:layout_marginBottom="2dp"
+                        android:hint="请输入搜索词"
+                        android:singleLine="true"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/plugin_uexsearchbarview_rl_searchbar_iv"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/plugin_uexsearchbarview_del"
+                        android:scaleType="fitCenter"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/plugin_uexsearchbarview_rl_bt_search"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/plugin_uexsearchbarview_bt_search"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/plugin_uexsearchbarview_iv_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:alpha="0.2"
+            android:background="@color/gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" >
+
+        <ListView
+            android:id="@+id/plugin_uexsearchbarview_ll_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="false"
+            android:scrollbars="none">
+        </ListView>
+
+
+    </LinearLayout>
+
+</LinearLayout>

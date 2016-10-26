@@ -1,12 +1,16 @@
 package org.zywx.wbpalmstar.plugin.uexSearchBarView;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 
 public class ESearchBarViewDataModel implements Serializable {
-	
+
 	public SearchBarModel searchBar;
 	public ListViewModel listView;
-	
+	public JSONArray suggestionList;
+    public int suggestionCount;
+
 	public ESearchBarViewDataModel() {
 		super();
 	}
@@ -63,10 +67,10 @@ public class ESearchBarViewDataModel implements Serializable {
 		public void setCancelButtonTextColor(String cancelButtonTextColor) {
 			this.cancelButtonTextColor = cancelButtonTextColor;
 		}
-		
-		
+
+
 	}
-	
+
 	public class ListViewModel {
 		public String bgColor;
 		public String separatorLineColor;
@@ -96,7 +100,7 @@ public class ESearchBarViewDataModel implements Serializable {
 		public void setClearHistoryButtonTextCoror(String clearHistoryButtonTextCoror) {
 			this.clearHistoryButtonTextCoror = clearHistoryButtonTextCoror;
 		}
-		
-		
+
+
 	}
 }

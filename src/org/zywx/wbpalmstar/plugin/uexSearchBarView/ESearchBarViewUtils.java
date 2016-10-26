@@ -1,5 +1,6 @@
 package org.zywx.wbpalmstar.plugin.uexSearchBarView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.zywx.wbpalmstar.plugin.uexSearchBarView.ESearchBarViewDataModel.ListViewModel;
@@ -11,12 +12,15 @@ public class ESearchBarViewUtils {
 	public static final int SEARCHBAR_MSG_CODE_CLOSE = 1;
 	public static final int SEARCHBAR_MSG_CODE_SETVIEWSTYLE = 2;
 	public static final int SEARCHBAR_MSG_CODE_CLEARHISTORY = 3;
-	
-	public static final String SEARCHBAR_PARAMS_KEY_X = "x";
+    public static final int SEARCHBAR_MSG_CODE_SUGGESTION = 4;
+
+
+    public static final String SEARCHBAR_PARAMS_KEY_X = "x";
 	public static final String SEARCHBAR_PARAMS_KEY_Y = "y";
 	public static final String SEARCHBAR_PARAMS_KEY_W = "w";
 	public static final String SEARCHBAR_PARAMS_KEY_H = "h";
-	
+	public static final String SEARCHBAR_PARAMS_KEY_SUGGESTION_LIST = "suggestionList";
+
 	public static final String SEARCHBAR_PARAMS_KEY_SEARCHBAR = "searchBar";
 	public static final String SEARCHBAR_PARAMS_KEY_SEARCHBAR_PLACEHODERTEXT = "placehoderText";
 	public static final String SEARCHBAR_PARAMS_KEY_SEARCHBAR_TEXTCOLOR = "textColor";
@@ -27,7 +31,7 @@ public class ESearchBarViewUtils {
 	public static final String SEARCHBAR_PARAMS_KEY_LISTVIEW_SEPARATORLINECOLOR = "separatorLineColor";
 	public static final String SEARCHBAR_PARAMS_KEY_LISTVIEW_ITEMTEXTCOLOR = "itemTextColor";
 	public static final String SEARCHBAR_PARAMS_KEY_LISTVIEW_CLEARHISTORYBUTTONTEXTCOROR = "clearHistoryButtonTextCoror";
-	
+
 	public static final String SEARCHBAR_MSG_CODE_FUNCTION = "function";
 	public static final String SEARCHBAR_MSG_CODE_ACTIVITY = "activityId";
 	public static final String SEARCHBAR_MSG_CODE_OBJ = "obj";
@@ -35,6 +39,7 @@ public class ESearchBarViewUtils {
 	public static final String SEARCHBAR_MSG_CODE_STORAGE = "storage";
     public static final String RESULT_INDEX = "index";
     public static final String RESULT_KEYWORD = "keyword";
+    public static final String SEARCHBAR_PARAMS_KEY_SUGGESTION_COUNT ="suggestionCount" ;
 
 
     public static ESearchBarViewDataModel parseJson2Model(String[] params) {
@@ -75,10 +80,17 @@ public class ESearchBarViewUtils {
 				}
 				model.setListView(listView);
 			}
+            if (obj.has(ESearchBarViewUtils.SEARCHBAR_PARAMS_KEY_SUGGESTION_LIST)) {
+                JSONArray suggestionList = obj.getJSONArray(ESearchBarViewUtils.SEARCHBAR_PARAMS_KEY_SUGGESTION_LIST);
+                model.suggestionList = suggestionList;
+            }
+            if (obj.has(ESearchBarViewUtils.SEARCHBAR_PARAMS_KEY_SUGGESTION_COUNT)) {
+                model.suggestionCount = obj.getInt(ESearchBarViewUtils.SEARCHBAR_PARAMS_KEY_SUGGESTION_COUNT);
+            }
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return model;
 	}
-	
+
 }
