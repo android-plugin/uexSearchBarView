@@ -18,7 +18,7 @@
 		}
 	}
 
-	function show() {
+   function show() {
 		var wid = window.screen.width - 200;
 		var hei = window.screen.height - 300;
 		var param = {
@@ -39,7 +39,6 @@
 		};
 		uexSearchBarView.open(JSON.stringify(param));
 	}
-
 	function suggestion() {
 		var wid = window.screen.width - 200;
 		var hei = window.screen.height - 300;
@@ -63,27 +62,24 @@
 		};
 		uexSearchBarView.openWithSuggestion(JSON.stringify(param));
 	}
-
 	function dismiss() {
 		uexSearchBarView.close();
 	}
-
 	function clearHistory() {
 		uexSearchBarView.clearHistory();
 	}
-
 </script>
 </head>
 
 <body>
-	<div class="tit">uexSearchBarView</div>
-	<div class="conbor">
-		<div class="consj">
-			<input class="btn" type="button" value="打开" onclick=show()>
-			<input class="btn" type="button" value="suggestion" onclick=suggestion()>
-			<input class="btn" type="button" value="关闭" onclick=dismiss()>
-			<input class="btn" type="button" value="清除历史记录" onclick=clearHistory()>
-		</div>
-	</div>
+<div class="tit">uexSearchBarView</div>
+<div class="conbor">
+    <div class="consj">
+        <input class="btn" type="button" value="打开" onclick=show()>
+        <input class="btn" type="button" value="suggestion" onclick=suggestion()>
+        <input class="btn" type="button" value="关闭" onclick=dismiss()>
+        <input class="btn" type="button" value="清除历史记录" onclick=clearHistory()>
+    </div>
+</div>
 </body>
 </html>

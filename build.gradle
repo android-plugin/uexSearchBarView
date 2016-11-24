@@ -9,11 +9,17 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile fileTree(include: '*.jar', dir: 'libs')
+    compile 'org.appcan:engine:+:systemRelease@aar'
+}
+
+repositories {
+    maven {
+        url 'https://raw.githubusercontent.com/android-plugin/mvn-repo/master/'
+    }
 }
 
 android {
@@ -21,9 +27,8 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "23.0.0"
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -33,7 +38,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-            jniLibs.srcDirs=['libs']
+            jniLibs.srcDirs = ['libs']
         }
 
         // Move the tests to tests/java, tests/res, etc...
@@ -47,6 +52,14 @@ android {
         // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+    }
+    defaultConfig {
+        applicationId 'org.zywx.wbpalmstar.plugin.uexSearchBarView'
+        minSdkVersion 14
+        targetSdkVersion 14
+        multiDexEnabled true
+    }
+    productFlavors {
     }
 }
 

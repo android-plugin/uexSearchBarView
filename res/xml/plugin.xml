@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-	<plugin
+    <plugin
         className="org.zywx.wbpalmstar.plugin.uexSearchBarView.EUExSearchBarView"
-        uexName="uexSearchBarView" >
+        uexName="uexSearchBarView">
         <method name="open" />
         <method name="openWithSuggestion" />
         <method name="close" />
