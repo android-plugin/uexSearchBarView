@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uexplugins>
-    <plugin uexName="uexSearchBarView" version="4.0.0" build="2">
-        <info>2:新增字符联想功能</info>
-        <build>1:去掉插件中的ActivityGroup,配合引擎升级</build>
-		<build>0:搜索框</build>
+    <plugin uexName="uexSearchBarView" version="4.0.0" build="0">
+        <info>0:新增字符联想功能</info>
     </plugin>
 </uexplugins>
